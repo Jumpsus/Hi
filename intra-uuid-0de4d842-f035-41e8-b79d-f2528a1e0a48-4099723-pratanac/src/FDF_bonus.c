@@ -17,8 +17,6 @@ int	destroy(t_var *param)
 {
 	mlx_destroy_window(param->mlx, param->win);
 	free_arr(param->posit);
-	free(param->mlx);
-	free(param->win);
 	exit(0);
 	return (0);
 }

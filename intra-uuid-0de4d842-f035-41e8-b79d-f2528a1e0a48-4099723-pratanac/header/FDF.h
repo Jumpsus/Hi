@@ -89,7 +89,7 @@ int		ft_len_posit(t_posit *posit);
 
 /* 2_set_utils */
 t_posit	**join_arr(t_posit **arr, t_posit *sub_arr);
-t_posit	*create_arr(char *line, int row);
+t_posit	*create_arr(char *line, int row, t_posit **arr);
 t_posit	**set_input(char **argv);
 
 /* 3_convert_posit */
@@ -117,4 +117,8 @@ int		keyboard_input(int keynote, t_var *param);
 int		draw_horizon_bonus(void *mlx, void *win, t_posit **posit, int max_z);
 int		draw_vertical_bonus(void *mlx, void *win, t_posit **posit, int max_z);
 int		expose_hook(t_var *param);
+
+/* 8_check_stuff */
+int		check_input(char *input);
+
 #endif

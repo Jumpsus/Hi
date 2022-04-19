@@ -40,23 +40,21 @@ t_posit	**join_arr(t_posit **arr, t_posit *sub_arr)
 	return (new_arr);
 }
 
-int	check_input(char *line)
+static void	exit_program_with_free(char *line, char **split,t_posit *sub_arr, t_posit **arr)
 {
-	int	i;
-
-	i = 0;
-	if (line[i] == '-')
-		i++;
-	while (line[i] && line[i] != ',')
-	{
-		if (line[i] < '0' || line[i] > '9')
-			return (1);
-		i++;
-	}
-	return (0);
+	if (line)
+		free(line);
+	if (sub_arr)
+		free(sub_arr);
+	if (split)
+		free_split(split);
+	if (arr)
+		free_arr(arr);
+	ft_putstr_fd("Wrong input !! Please check your format \n", 2);
+	exit (3);
 }
 
-t_posit	*create_arr(char *line, int row)
+t_posit	*create_arr(char *line, int row, t_posit **arr)
 {
 	char		**split;
 	t_posit		*sub_arr;
@@ -69,6 +67,8 @@ t_posit	*create_arr(char *line, int row)
 		return (NULL);
 	while (split[i])
 	{
+		if (!check_input(split[i]))
+			exit_program_with_free(line, split, sub_arr, arr);
 		sub_arr[i].x = i * X_SCALE;
 		sub_arr[i].z = 1 * row * Y_SCALE;
 		sub_arr[i].y = -1 * ft_atoi(split[i]) * Z_SCALE;
@@ -99,7 +99,7 @@ t_posit	**set_input(char **argv)
 	line = get_next_line(fd);
 	while (line)
 	{
-		sub_arr = create_arr(line, row++);
+		sub_arr = create_arr(line, row++, arr);
 		arr = join_arr(arr, sub_arr);
 		free(line);
 		line = get_next_line(fd);

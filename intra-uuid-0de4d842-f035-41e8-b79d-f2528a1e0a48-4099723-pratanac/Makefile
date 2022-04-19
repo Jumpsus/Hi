@@ -18,7 +18,8 @@ SRC = 	src/0_get_next_line.c	\
 	src/3_convert_posit.c	\
 	src/4_adjust_matrix.c	\
 	src/5_drawing.c		\
-	src/7_bonus_stuff.c
+	src/7_bonus_stuff.c	\
+	src/8_check_stuff.c	\
 
 MAN = src/6_event.c
 
