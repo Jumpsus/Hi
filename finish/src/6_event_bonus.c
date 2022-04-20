@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   6_event_bonus.c                                    :+:      :+:    :+:   */
+/*   6_event.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/18 20:41:56 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/18 20:51:16 by pratanac         ###   ########.fr       */
+/*   Created: 2022/04/18 20:40:56 by pratanac          #+#    #+#             */
+/*   Updated: 2022/04/20 14:08:47 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	event_rotation(t_var *param)
 	adj = get_adjust(param->posit);
 	param->posit = scaling_arr(param->posit, adj.scale);
 	param->posit = offset_arr(param->posit, adj.offset_x, adj.offset_y);
-	mlx_clear_window(param->mlx, param->win);
-	draw_horizon_bonus(param->mlx, param->win, param->posit, param->z);
-	draw_vertical_bonus(param->mlx, param->win, param->posit, param->z);
+	clean_img(param);
+	draw_map(param);
+	mlx_put_image_to_window(param->mlx, param->win, param->img.img_ptr, 0, 0);
 	return ;
 }
 
@@ -34,9 +34,9 @@ void	event_zoom(int keynote, t_var *param)
 		param->posit = scaling_arr(param->posit, 2.0);
 	else if (keynote == 'x')
 		param->posit = scaling_arr(param->posit, 0.5);
-	mlx_clear_window(param->mlx, param->win);
-	draw_horizon_bonus(param->mlx, param->win, param->posit, param->z);
-	draw_vertical_bonus(param->mlx, param->win, param->posit, param->z);
+	clean_img(param);
+	draw_map(param);
+	mlx_put_image_to_window(param->mlx, param->win, param->img.img_ptr, 0, 0);
 	return ;
 }
 
@@ -50,9 +50,9 @@ void	event_move(int keynote, t_var *param)
 		param->posit = offset_arr(param->posit, 0, (WIN_H / 10));
 	if (keynote == 65364)
 		param->posit = offset_arr(param->posit, 0, (-1 * WIN_H / 10));
-	mlx_clear_window(param->mlx, param->win);
-	draw_horizon_bonus(param->mlx, param->win, param->posit, param->z);
-	draw_vertical_bonus(param->mlx, param->win, param->posit, param->z);
+	clean_img(param);
+	draw_map(param);
+	mlx_put_image_to_window(param->mlx, param->win, param->img.img_ptr, 0, 0);
 	return ;
 }
 
@@ -76,9 +76,9 @@ void	event_cut(int keynote, t_var *param)
 		else
 			param->z = (param->z / 2);
 	}
-	mlx_clear_window(param->mlx, param->win);
-	draw_horizon_bonus(param->mlx, param->win, param->posit, param->z);
-	draw_vertical_bonus(param->mlx, param->win, param->posit, param->z);
+	clean_img(param);
+	draw_map_bonus(param, param->z);
+	mlx_put_image_to_window(param->mlx, param->win, param->img.img_ptr, 0, 0);
 }
 
 int	keyboard_input(int keynote, t_var *param)
@@ -93,38 +93,10 @@ int	keyboard_input(int keynote, t_var *param)
 		event_cut(keynote, param);
 	if (keynote == KEY_ESC)
 	{
-		mlx_destroy_window(param->mlx, param->win);
+		if (param->mlx)
+			mlx_destroy_window(param->mlx, param->win);
 		free_arr(param->posit);
 		exit(0);
 	}
 	return (0);
 }
-/*
-int     main(int argc, char ** argv)
-{
-	t_posit **posit;
-	t_var	var;
-	t_adj	adj;
-
-	posit = set_input(argv);
-	posit = convert_iso(posit);
-	adj = get_adjust(posit);
-	//printf("%f",adj.scale);
-	fflush(stdout);
-	posit = scaling_arr(posit, adj.scale);
-	posit = offset_arr(posit, adj.offset_x, adj.offset_y);
-
-var.mlx = mlx_init();
-var.win = mlx_new_window(var.mlx, WIN_W, WIN_H, "FDF");
-var.posit = posit;
-
-draw_horizon(var.mlx, var.win, var.posit);
-draw_vertical(var.mlx, var.win, var.posit);
-mlx_key_hook(var.win, keyboard_input, &var);
-mlx_mouse_hook(var.win, keyboard_input, &var);
-mlx_hook(var.win, 17 , 0L, destroy, &var);
-mlx_loop(var.mlx);
-free_arr(posit);
-return (0);
-}
-*/

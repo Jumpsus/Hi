@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:27:49 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/18 21:05:34 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:04:12 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_draw
 	int		e_c;
 }	t_draw;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*img_ptr;
 	int		*data;
@@ -84,8 +84,6 @@ typedef struct s_var
 	void	*win;
 	t_posit	**posit;
 	int		z;
-	int		last_x;
-	int		last_y;
 	t_img	img;
 }	t_var;
 
@@ -115,7 +113,7 @@ t_posit	**offset_arr(t_posit **posit, double offset_x, double offset_y);
 t_size	get_size(t_posit **posit);
 t_adj	get_adjust(t_posit **posit);
 
-/* 5_drawing */
+/* 9_drawing */
 t_draw	fill_target(t_posit start, t_posit end);
 int		drawing(t_var *var, t_draw t);
 int		draw_map(t_var *var);

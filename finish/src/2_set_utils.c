@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:32:26 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/18 20:34:04 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:12:32 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_posit	**join_arr(t_posit **arr, t_posit *sub_arr)
 	return (new_arr);
 }
 
-static void	exit_program_with_free(char *line, char **split,t_posit *sub_arr, t_posit **arr)
+void	exit_program_with_free(char *line, char **split,
+		t_posit *sub_arr, t_posit **arr)
 {
 	if (line)
 		free(line);

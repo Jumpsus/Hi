@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:43:56 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/18 20:50:54 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:13:49 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,34 +72,7 @@ int	mouse_hook(int button, int x, int y, t_var *param)
 	mlx_put_image_to_window(param->mlx, param->win, param->img.img_ptr, 0, 0);
 	return (0);
 }
-/*
-int             hook_mouseup(int button, int x, int y, t_var *var)
-{
-	        printf("%p", var->mlx);
-	        printf("hitup at: x = %d y = %d\n",x,y);
-	        fflush(stdout);
-	        return(button);
-}
 
-int             hook_mousemove(int x, int y, t_var *var)
-{
-	int	current_x;
-	int	current_y;
-
-	if (y < 0 || y > WIN_H)
-		return (0);
-	current_x = x;
-	current_y = y;
-	var->posit = offset_arr(var->posit, current_x - var->last_x, current_y - var->last_y);
-	fflush(stdout);
-	clean_img(var);
-	draw_map(var);
-	mlx_put_image_to_window(var->mlx, var->win, var->img.img_ptr, 0, 0);
-	var->last_x = x;
-	var->last_y = y;
-	return(0);
-}
-*/
 int	main(int argc, char **argv)
 {
 	t_var	var;
@@ -109,9 +82,9 @@ int	main(int argc, char **argv)
 	var.mlx = mlx_init();
 	var.win = mlx_new_window(var.mlx, WIN_W, WIN_H, "FDF");
 	var.img.img_ptr = mlx_new_image(var.mlx, WIN_W, WIN_H);
-	var.img.data = (int *)mlx_get_data_addr(var.img.img_ptr, &var.img.bpp, &var.img.size_l,
-					&var.img.endian);
-	if (!var.mlx ||	!var.win)
+	var.img.data = (int *)mlx_get_data_addr(var.img.img_ptr, &var.img.bpp,
+			&var.img.size_l, &var.img.endian);
+	if (!var.mlx || !var.win)
 		handle_error(var.posit);
 	draw_map(&var);
 	mlx_put_image_to_window(var.mlx, var.win, var.img.img_ptr, 0, 0);
@@ -122,6 +95,3 @@ int	main(int argc, char **argv)
 	mlx_loop(var.mlx);
 	return (0);
 }
-/* mlx_hook(var.win, 4, (1L<<2), hook_mousedown, &var);
-   mlx_hook(var.win, 5, (1L<<3), hook_mouseup, &var);
-   mlx_hook(var.win, 6, (1L<<8), hook_mousemove, &var); */

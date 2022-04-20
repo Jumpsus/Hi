@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:40:01 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/18 20:40:42 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:13:03 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_draw	fill_target(t_posit start, t_posit end)
 	return (target);
 }
 
-int	drawing(void *mlx, void *win, t_draw t)
+int	drawing(t_var *var, t_draw t)
 {
 	int		pixels;
 	double	del_x;
@@ -36,37 +36,44 @@ int	drawing(void *mlx, void *win, t_draw t)
 	pixels = sqrt((t.e_x - t.s_x) * (t.e_x - t.s_x) + (
 				t.e_y - t.s_y) * (t.e_y - t.s_y));
 	if (pixels == 0)
-	{
 		return (0);
-	}
 	del_x = (t.e_x - t.s_x) / pixels;
 	del_y = (t.e_y - t.s_y) / pixels;
 	del_color = (t.e_c - t.s_c) / pixels;
 	while (pixels)
 	{
-		mlx_pixel_put(mlx, win, t.s_x, t.s_y, t.s_c);
+		if ((t.s_x >= 0 && t.s_x <= WIN_W) && (t.s_y >= 0 && t.s_y <= WIN_H))
+			var->img.data[(int)(t.s_y * WIN_W) + (int)(t.s_x)] = t.s_c;
 		t.s_x = t.s_x + del_x;
 		t.s_y = t.s_y + del_y;
 		t.s_c = t.s_c + del_color;
 		pixels--;
 	}
-	return (1);
+	return (0);
 }
 
-int	draw_horizon(void *mlx, void *win, t_posit **posit)
+int	draw_map(t_var *var)
 {
 	int		i;
 	int		j;
 	t_draw	draw_me;
 
 	i = 0;
-	while (posit[i])
+	while (var->posit[i])
 	{
 		j = 0;
-		while (j < (ft_len_posit(posit[i]) - 1))
+		while (var->posit[i][j].flag)
 		{
-			draw_me = fill_target(posit[i][j], posit[i][j + 1]);
-			drawing(mlx, win, draw_me);
+			if (j < ft_len_posit(var->posit[i]) - 1)
+			{
+				draw_me = fill_target(var->posit[i][j], var->posit[i][j + 1]);
+				drawing(var, draw_me);
+			}
+			if (var->posit[i + 1])
+			{
+				draw_me = fill_target(var->posit[i][j], var->posit[i + 1][j]);
+				drawing(var, draw_me);
+			}
 			j++;
 		}
 		i++;
@@ -74,59 +81,25 @@ int	draw_horizon(void *mlx, void *win, t_posit **posit)
 	return (0);
 }
 
-int	draw_vertical(void *mlx, void *win, t_posit **posit)
+void	clean_img(t_var *var)
 {
-	int		i;
-	int		j;
-	t_draw	draw_me;
-
-	j = 0;
-	while (posit[0][j].flag)
-	{
-		i = 0;
-		while (posit[i])
-		{
-			if (posit[i + 1])
-			{
-				draw_me = fill_target(posit[i][j], posit[i + 1][j]);
-				drawing(mlx, win, draw_me);
-			}
-			i++;
-		}
-		j++;
-	}
-	return (0);
-}
-/*
-int     main(int argc, char ** argv)
-{
-	argc = 0;
-	t_posit **posit;
-	t_adj adj;
-	t_draw	t;
-	(void) argc;
-
-	int     i;
-	int     j;
+	int	i;
 
 	i = 0;
-	j = 0;
-	posit = set_input(argv);
-//	printf("%d\n",arg[9][3].z);
-	posit = convert_iso(posit);
-//	posit = rotate_arr(posit);
-//	posit = rotate_arr(posit);
-	posit = convert_iso(posit);
-	adj = get_adjust(posit);
-	posit = scaling_arr(posit, adj.scale);
-	posit = offset_arr(posit, adj.offset_x, adj.offset_y);
-	void *mlx = mlx_init();	
-	void *win = mlx_new_window(mlx, WIN_W, WIN_H, "Tutorial Window - Draw Line");
-	
-	draw_horizon(mlx, win, posit);
-	draw_vertical(mlx, win, posit);
-	mlx_loop(mlx);
-	free_arr(posit);
-	return (0);
+	while (i < WIN_W * WIN_H)
+	{
+		var->img.data[i] = 0;
+		i++;
+	}
 }
-*/
+
+void	del_img(t_var *var)
+{
+	if (var->img.img_ptr)
+	{
+		if (var->img.img_ptr)
+		{
+			mlx_destroy_image(var->mlx, var->img.img_ptr);
+		}
+	}
+}
