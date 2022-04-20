@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:40:01 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/20 14:13:03 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:29:39 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	drawing(t_var *var, t_draw t)
 	while (pixels)
 	{
 		if ((t.s_x >= 0 && t.s_x <= WIN_W) && (t.s_y >= 0 && t.s_y <= WIN_H))
-			var->img.data[(int)(t.s_y * WIN_W) + (int)(t.s_x)] = t.s_c;
+			var->img.data[(WIN_W * (int)(t.s_y)) + (int)(t.s_x)] = t.s_c;
 		t.s_x = t.s_x + del_x;
 		t.s_y = t.s_y + del_y;
 		t.s_c = t.s_c + del_color;
