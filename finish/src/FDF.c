@@ -6,7 +6,7 @@
 /*   By: pratanac <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 20:43:56 by pratanac          #+#    #+#             */
-/*   Updated: 2022/04/20 14:13:49 by pratanac         ###   ########.fr       */
+/*   Updated: 2022/04/20 14:35:59 by pratanac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,6 @@ int	mouse_hook(int button, int x, int y, t_var *param)
 	{
 		param->posit = scaling_arr(param->posit, 0.5);
 		param->posit = offset_arr(param->posit, 0.5 * x, 0.5 * y);
-	}
-	else if (button == 1)
-	{
-		if (!(y < 0 || y > WIN_H))
-		{
-			param->last_x = x;
-			param->last_y = y;
-		}
 	}
 	clean_img(param);
 	draw_map(param);
